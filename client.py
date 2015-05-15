@@ -191,7 +191,7 @@ class Client(requests.Session):
             cost = shares * dic.get("price")
             money -= cost
             print "{0:<10}{1:<10}{2:<15}{3:<10}".format(
-                dic.get("stock"), shares, cost, dic.get("price"))
+                dic.get("stock"), shares, dic.get("price"), cost)
         print "Spent: {0}\nRemaining: {1}\nDate: {2}".format(
             start_money-money, money, date)
 
