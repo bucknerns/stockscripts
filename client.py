@@ -7,11 +7,24 @@ import sys
 class Picks(object):
     def __init__(self, purchased, gain, annd, s_p, total, picks):
         self.purchased = purchased
-        self.gain = gain
-        self.annd = annd
-        self.s_p = s_p
-        self.total = total
+        self.gain = int(gain)
+        self.annd = int(annd)
+        self.s_p = int(s_p)
+        self.total = int(total)
         self.picks = picks
+
+    def __eq__(self, obj):
+        if ((self.purchased == obj.purchased) and
+            (self.gain == obj.gain) and
+            (self.annd == obj.annd) and
+            (self.s_p == obj.s_p) and
+            (self.total == obj.total) and
+                (self.picks == obj.picks)):
+            return True
+        return False
+
+    def __ne__(self, obj):
+        return not self.__eq__(obj)
 
 
 class MyList(list):
@@ -47,12 +60,12 @@ class Parser1(HTMLParser):
 
         args = []
         for item in self._list[self._table_start[2] + 2:]:
-            try:
-                args.append(int(item))
-            except:
-                args.append(item)
+            args.append(item)
             if len(args) == 6:
-                big_table.append(Picks(*args))
+                try:
+                    big_table.append(Picks(*args))
+                except:
+                    pass
                 args = []
         return big_table
 
@@ -149,7 +162,7 @@ class Client(requests.Session):
         self.parser = Parser1()
         self.parser2 = Parser2()
 
-    def test_run(self, from_date=2000, to_date=2014, month=1, query_list=None):
+    def test_run(self, from_date=2000, to_date=2016, month=1, query_list=None):
         dic = {
             "tester": "BL", "submit": "Run", "from": from_date, "to": to_date,
             "month": month}
